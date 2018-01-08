@@ -10,6 +10,7 @@ import party.threebody.zkit.tally.dao.DealDao;
 import party.threebody.zkit.tally.domain.Bill;
 import party.threebody.zkit.tally.domain.Deal;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -23,7 +24,7 @@ public class BillService {
         List<Deal> deals = bill.getDeals();
         for (Deal deal : deals) {
             deal.setBuyer(bill.getMainBuyer());
-            deal.setSellor(bill.getMainSellor());
+            deal.setSeller(bill.getMainSellor());
         }
         batchCreateOrUpdateDeals(deals);
         if (bill.getId() == null) {
@@ -37,6 +38,27 @@ public class BillService {
         }
         return bill;
     }
+
+    public int createDeal(Deal deal) {
+        if (deal.getId() == null) {
+            deal.setId(System.currentTimeMillis());
+        }
+        if (deal.getMakeDate() == null) {
+            deal.setMakeDate(LocalDate.now());
+        }
+        return dealDao.create(deal);
+    }
+
+    public int createBill(Bill bill) {
+        if (bill.getId() == null) {
+            bill.setId(System.currentTimeMillis());
+        }
+        if (bill.getCreateDate() == null) {
+            bill.setCreateDate(LocalDate.now());
+        }
+        return billDao.create(bill);
+    }
+
 
     void batchCreateBillItems(Long billId, List<Deal> deals, int initSeq) {
         int seq = initSeq;
@@ -53,7 +75,7 @@ public class BillService {
         for (Deal deal : deals) {
             if (deal.getId() == null) {
                 deal.setId(now++);
-                rnc += dealDao.create(deal);
+                rnc += createDeal(deal);
             } else {
                 rnu += dealDao.updateByExample(deal);
             }

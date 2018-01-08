@@ -5,12 +5,13 @@ import party.threebody.skean.data.PrimaryKey
 
 import javax.persistence.Table
 import java.time.LocalDate
+
 // 交易合约
-@Table(name="tally_deal")
+@Table(name = "tally_deal")
 class Deal {
     @PrimaryKey Long id
     @Column Long invoiceId  // optional,
-        @Column String sellor
+    @Column String seller
     @Column String buyer
     @Column LocalDate makeDate
     @Column BigDecimal price    // optional
@@ -20,8 +21,8 @@ class Deal {
 
 }
 // 账单
-@Table(name="tally_bill")
-class Bill{
+@Table(name = "tally_bill")
+class Bill {
     @PrimaryKey Long id
     @Column String mainSellor
     @Column String mainBuyer
