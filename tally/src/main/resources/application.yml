@@ -1,0 +1,30 @@
+spring:
+  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
+    url: jdbc:mariadb://10.0.0.101:3306/skean0
+    username: skean
+    password: skean
+
+  #output:
+  #  ansi.enabled: ALWAYS
+
+  jackson:
+    serialization.write_dates_as_timestamps: false
+
+server:
+  port: 8940
+
+logging:
+  level:
+    #party.threebody.skean.jdbc: DEBUG
+    party.threebody.skean.jdbc.SqlPrinter: WARN
+    party.threebody.herd: DEBUG
+  file: /tmp/herd.log
+
+skean:
+  jdbc:
+    sql-printer:
+      print-sql-result-strategy: REFLECTION
+
+herd:
+  localThumbnailRepoPath: /tmp/herd/thumbs

@@ -1,0 +1,36 @@
+buildscript {
+    repositories {
+        maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
+        maven { url 'http://repo.spring.io/milestone/' }
+        jcenter()
+    }
+    dependencies {
+        classpath "org.springframework.boot:spring-boot-gradle-plugin:${versions.'spring-boot'}"
+    }
+}
+
+apply plugin: 'groovy'
+apply plugin: 'org.springframework.boot'
+dependencies {
+
+    compile group: 'party.threebody.skean', name: 'skean-jdbc-spring-boot-starter', version: versions.skean
+    compile group: 'party.threebody.skean', name: 'skean-web-spring-boot-starter', version: versions.skean
+
+    compile group: 'org.codehaus.groovy', name: 'groovy-all', version: versions.groovy
+
+    compile group: 'org.mariadb.jdbc', name: 'mariadb-java-client', version: versions.'mariadb-java-client'
+    testCompile group: 'com.h2database', name: 'h2', version: versions.h2
+
+    compile group: 'org.springframework.boot', name: 'spring-boot-devtools', version: versions.'spring-boot'
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-undertow', version: versions.'spring-boot'
+    testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: versions.'spring-boot'
+
+    compile group: 'com.zaxxer', name: 'HikariCP', version: versions.HikariCP
+
+
+
+
+}
+bootJar {
+    enabled = true
+}

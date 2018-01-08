@@ -1,0 +1,84 @@
+configure(allprojects) { project ->
+    group = "party.threebody.herd"
+    ext.versions = [
+            java                 : '1.8',
+            groovy               : '2.4.11',
+            servlet              : '4.0.0',
+
+            'mariadb-java-client': '2.1.1',
+            'HikariCP'           : '2.7.1',
+            'spring-boot'        : '2.0.0.M4',
+            'h2'                 : '1.4.196',
+            'skean'              : '2.4.0-SNAPSHOT'
+    ]
+
+    repositories {
+        mavenLocal()
+        maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
+        maven { url 'http://repo.spring.io/milestone/' }
+        mavenCentral()
+    }
+}
+configure(subprojects) { project ->
+    apply plugin: 'java'
+    apply plugin: 'idea'
+    compileJava {
+        sourceCompatibility = versions.java
+        targetCompatibility = versions.java
+        options.encoding = 'UTF-8'
+        options.compilerArgs += '-parameters'
+    }
+
+    compileTestJava {
+        [compileJava, compileTestJava, javadoc]*.options*.encoding = 'UTF-8'
+        sourceCompatibility = versions.java
+        targetCompatibility = versions.java
+        options.encoding = 'UTF-8'
+        options.compilerArgs += "-parameters"
+    }
+
+    apply plugin: 'maven-publish'
+
+    task sourceJar(type: Jar) {
+        from sourceSets.main.allJava
+    }
+
+    publishing {
+        publications {
+            mavenJava(MavenPublication) {
+                from components.java
+
+                artifact sourceJar {
+                    classifier "sources"
+                }
+            }
+        }
+    }
+
+    if (project.plugins.hasPlugin('groovy')) {
+        compileGroovy {
+            options.encoding = 'UTF-8'
+        }
+        compileTestGroovy {
+            options.encoding = 'UTF-8'
+        }
+    }
+
+    apply plugin: 'jacoco'
+
+    jacocoTestReport {
+        additionalSourceDirs = files(sourceSets.main.allSource.srcDirs)
+        sourceDirectories = files(sourceSets.main.allSource.srcDirs)
+        classDirectories = files(sourceSets.main.output)
+        reports {
+            html.enabled = true
+            xml.enabled = true
+            csv.enabled = false
+        }
+    }
+
+}
+
+
+
+
