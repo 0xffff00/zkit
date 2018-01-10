@@ -45,6 +45,9 @@ public class BillService {
         return bill;
     }
 
+    public List<String> listAllBuyers(){
+        return dealDao.listAllBuyers();
+    }
     // unnecessary
     Bill getLastBill(String seller, String buyer) {
         return billDao.getLast(seller, buyer);

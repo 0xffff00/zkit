@@ -17,7 +17,6 @@ class DealDao extends SinglePKJpaCrudDAO<Deal, Long> {
         return cjt
     }
 
-
     @Override
     Deal createAndGet(Deal deal) {
         if (deal.id == null) {
@@ -31,23 +30,8 @@ class DealDao extends SinglePKJpaCrudDAO<Deal, Long> {
         fromTable().by('billId').val(billId).delete()
     }
 
-    List<Deal> listByBillId(Long billId){
-        cjt.sql('''
-SELECT d.* 
-FROM tally_deal d LEFT JOIN tally_bill_item bd
-ON d.id=bd.`deal_id`
-WHERE bd.bill_id=?''')
-        .arg(billId).list(Deal.class)
-    }
-
-    Deal getLastKeyFrame(String seller,String buyer){
-        fromTable().by('type','seller','buyer').val('KEY',seller,buyer)
-        orderBy('-id').first(Deal.class)
-    }
-
-    List<Deal> listByIdMin(String seller,String buyer,String idStart){
-        def sql='SELECT * FROM $table WHERE seller=? AND buyer=? AND id>=?'
-        cjt.sql(sql).arg(seller,buyer,idStart).list(Deal.class)
+    List<String> listAllBuyers(){
+        cjt.sql("SELECT distinct buyer FROM $table ORDER BY buyer").listOfSingleCol(String.class)
     }
 
 }
