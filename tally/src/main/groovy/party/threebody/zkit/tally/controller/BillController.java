@@ -17,7 +17,7 @@ public class BillController extends SinglePKUriVarCrudRestController<Bill, Long>
 
     @Override
     public void buildCrudFunctions(SinglePKCrudFunctionsBuilder<Bill, Long> builder) {
-        builder.fromSinglePKCrudDAO(billDao)
+        builder.fromSinglePKCrudDAO(billDao);
         builder.oneCreatorWithReturn(billService::createOrUpdateBilllWithItsDeals);
     }
 }

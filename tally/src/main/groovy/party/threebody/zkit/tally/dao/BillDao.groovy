@@ -16,7 +16,7 @@ class BillDao extends SinglePKJpaCrudDAO<Bill, Long> {
     }
 
     Bill getLast(String seller,String buyer){
-        fromTable().by('seller','buyer').val(seller,buyer).orderBy('-id').first()
+        fromTable().by('seller','buyer').val(seller,buyer).orderBy('-id').first(Bill.class)
     }
 
 }
