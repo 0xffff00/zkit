@@ -15,18 +15,8 @@ class BillDao extends SinglePKJpaCrudDAO<Bill, Long> {
         return cjt
     }
 
-
-    int createBillItem(Long billId, Long dealId, int seq) {
-        cjt.sql('INSERT INTO tally_bill_item(bill_id,deal_id,seq) VALUES(?,?,?)')
-                .arg(billId, dealId, seq).execute()
+    Bill getLast(String seller,String buyer){
+        fromTable().by('seller','buyer').val(seller,buyer).orderBy('-id').first()
     }
 
-    int deleteBillItem(Long billId, int seq) {
-        cjt.from('tally_bill_item')
-                .by('bill_id', 'seq').val(billId, seq).delete()
-    }
-
-    int deleteBillItems(Long billId) {
-        cjt.from('tally_bill_item').by('bill_id').val(billId).delete()
-    }
 }

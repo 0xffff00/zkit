@@ -27,6 +27,10 @@ class DealDao extends SinglePKJpaCrudDAO<Deal, Long> {
         return deal
     }
 
+    int deleteByBillId(Long billId){
+        fromTable().by('billId').val(billId).delete()
+    }
+
     List<Deal> listByBillId(Long billId){
         cjt.sql('''
 SELECT d.* 
@@ -36,5 +40,14 @@ WHERE bd.bill_id=?''')
         .arg(billId).list(Deal.class)
     }
 
+    Deal getLastKeyFrame(String seller,String buyer){
+        fromTable().by('type','seller','buyer').val('KEY',seller,buyer)
+        orderBy('-id').first(Deal.class)
+    }
+
+    List<Deal> listByIdMin(String seller,String buyer,String idStart){
+        def sql='SELECT * FROM $table WHERE seller=? AND buyer=? AND id>=?'
+        cjt.sql(sql).arg(seller,buyer,idStart).list(Deal.class)
+    }
 
 }
