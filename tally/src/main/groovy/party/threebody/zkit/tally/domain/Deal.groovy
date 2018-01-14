@@ -15,12 +15,13 @@ class Deal {
     @Column Long invoiceId  // optional
     @Column String seller
     @Column String buyer
-    @Column LocalDate makeDate
+    @Column LocalDate date
     @Column BigDecimal price    // optional
     @Column BigDecimal volume   // optional
     @Column BigDecimal amount
     @Column String unit
-    // @Column String type // KEY - key frame,关键帧， null/MID - 中间帧
+    @Column String desc
+    @Column String type // KEY - key frame,关键帧， null/MID - 中间帧
 
 }
 // 账单
@@ -33,12 +34,12 @@ class Bill {
     @Column String mainBuyer
     @Column BigDecimal baseBalance //上次结算余额
     @Column BigDecimal finalBalance //本次最终余额
-    @Column String memo
+    @Column String desc
     List<Deal> deals
 }
 // 发货单， not persistent
 class Invoice {
     @PrimaryKey Long id
-    @Column LocalDate makeDate
+    @Column LocalDate date
     List<Deal> deals
 }

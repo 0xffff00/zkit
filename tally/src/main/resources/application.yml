@@ -17,14 +17,10 @@ server:
 logging:
   level:
     #party.threebody.skean.jdbc: DEBUG
-    party.threebody.skean.jdbc.SqlPrinter: WARN
-    party.threebody.herd: DEBUG
-  file: /tmp/herd.log
+    party.threebody.skean.jdbc.SqlPrinter: DEBUG
+    party.threebody.zkit: DEBUG
 
 skean:
   jdbc:
     sql-printer:
       print-sql-result-strategy: REFLECTION
-
-herd:
-  localThumbnailRepoPath: /tmp/herd/thumbs

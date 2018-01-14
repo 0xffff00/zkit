@@ -26,4 +26,9 @@ public class DealController extends SinglePKUriVarCrudRestController<Deal, Long>
     public List<String> listAllBuyers(){
         return billService.listAllBuyers();
     }
+
+    @GetMapping("buyers/3cnts")
+    public Object list3CntsGroupByBuyer(){
+        return billService.list3CntsGroupByBuyer();
+    }
 }

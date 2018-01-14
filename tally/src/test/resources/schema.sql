@@ -9,9 +9,9 @@ CREATE TABLE `tally_bill` (
   `main_buyer` varchar(200) DEFAULT NULL,
   `start_date` date DEFAULT NULL,
   `end_date` date DEFAULT NULL,
-  `memo` varchar(2000) DEFAULT NULL,
-  `base_balance` decimal(12,3) DEFAULT NULL,
-  `final_balance` decimal(12,3) DEFAULT NULL,
+  `desc` varchar(2000) DEFAULT NULL,
+  `base_balance` decimal(16,4) DEFAULT NULL,
+  `final_balance` decimal(16,4) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -23,9 +23,11 @@ CREATE TABLE `tally_deal` (
   `id` bigint(20) NOT NULL,
   `bill_id` bigint(20) DEFAULT NULL,
   `invoice_id` bigint(20) DEFAULT NULL,
+  `type` char(4) DEFAULT NULL,
   `buyer` varchar(200) DEFAULT NULL,
   `seller` varchar(200) DEFAULT NULL,
-  `make_date` date DEFAULT NULL,
+  `date` date DEFAULT NULL,
+  `desc` varchar(255) DEFAULT NULL,
   `price` decimal(10,2) DEFAULT NULL,
   `volume` decimal(10,2) DEFAULT NULL,
   `amount` decimal(16,4) DEFAULT NULL,
