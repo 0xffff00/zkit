@@ -29,7 +29,9 @@ public class BillService {
     public Bill getBillWithItsDeals(Long billId){
         List<Deal> deals=dealDao.listByBillId(billId);
         Bill bill=billDao.readOne(billId);
-        bill.setDeals(deals);
+        if (bill!=null) {
+            bill.setDeals(deals);
+        }
         return bill;
     }
 
