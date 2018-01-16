@@ -1,8 +1,10 @@
 package party.threebody.zkit.tally.service;
 
+import com.github.promeg.pinyinhelper.Pinyin;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import party.threebody.skean.collections.Maps;
 import party.threebody.zkit.tally.dao.BillDao;
 import party.threebody.zkit.tally.dao.DealDao;
 import party.threebody.zkit.tally.domain.Bill;
@@ -26,10 +28,10 @@ public class BillService {
         }
     }
 
-    public Bill getBillWithItsDeals(Long billId){
-        List<Deal> deals=dealDao.listByBillId(billId);
-        Bill bill=billDao.readOne(billId);
-        if (bill!=null) {
+    public Bill getBillWithItsDeals(Long billId) {
+        List<Deal> deals = dealDao.listByBillId(billId);
+        Bill bill = billDao.readOne(billId);
+        if (bill != null) {
             bill.setDeals(deals);
         }
         return bill;
@@ -53,9 +55,14 @@ public class BillService {
         }
         return rna;
     }
-
     public List<String> listAllBuyers() {
         return dealDao.listAllBuyers();
+    }
+    public List<Map> listAllBuyersWithPinyin() {
+        List<String> buyers = dealDao.listAllBuyers();
+        return buyers.stream()
+                .map(buyer -> Maps.of("hanzi", buyer, "pinyin", Pinyin.toPinyin(buyer, ",")))
+                .collect(Collectors.toList());
     }
 
     // unnecessary
@@ -63,8 +70,8 @@ public class BillService {
         return billDao.getLast(seller, buyer);
     }
 
-    public List<Map<String,Object>> list3CntsGroupByBuyer(){
-        List<String> buyers=listAllBuyers();
-        return buyers.stream().map(buyer->dealDao.get3CntsByBuyer(buyer)).collect(Collectors.toList());
+    public List<Map<String, Object>> list3CntsGroupByBuyer() {
+        List<String> buyers = listAllBuyers();
+        return buyers.stream().map(buyer -> dealDao.get3CntsByBuyer(buyer)).collect(Collectors.toList());
     }
 }

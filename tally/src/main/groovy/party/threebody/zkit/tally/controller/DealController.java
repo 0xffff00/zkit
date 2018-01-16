@@ -11,6 +11,7 @@ import party.threebody.zkit.tally.domain.Deal;
 import party.threebody.zkit.tally.service.BillService;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("deals")
@@ -23,8 +24,8 @@ public class DealController extends SinglePKUriVarCrudRestController<Deal, Long>
     }
 
     @GetMapping("buyers")
-    public List<String> listAllBuyers(){
-        return billService.listAllBuyers();
+    public List<Map> listAllBuyers(){
+        return billService.listAllBuyersWithPinyin();
     }
 
     @GetMapping("buyers/3cnts")

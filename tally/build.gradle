@@ -26,6 +26,7 @@ dependencies {
     testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: versions.'spring-boot'
 
     compile group: 'com.zaxxer', name: 'HikariCP', version: versions.HikariCP
+    compile 'com.github.promeg:tinypinyin:2.0.3'
 
 
 
