@@ -1,5 +1,5 @@
 configure(allprojects) { project ->
-    group = "party.threebody.herd"
+    group = "party.threebody.zkit"
     ext.versions = [
             java                 : '1.8',
             groovy               : '2.4.11',

@@ -1,3 +1,4 @@
+version = '0.1.0'
 buildscript {
     repositories {
         maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
@@ -27,8 +28,6 @@ dependencies {
 
     compile group: 'com.zaxxer', name: 'HikariCP', version: versions.HikariCP
     compile 'com.github.promeg:tinypinyin:2.0.3'
-
-
 
 
 }
