@@ -1,0 +1,14 @@
+group 'party.threebody.zkit'
+
+apply plugin: 'java'
+
+def springBootVersion= '1.5.9.RELEASE'
+dependencies {
+    compile group: 'org.springframework.boot', name: 'spring-boot-devtools', version: springBootVersion
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-security', version: springBootVersion
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: springBootVersion
+
+    compile group: 'org.springframework.security', name: 'spring-security-jwt', version: '1.0.9.RELEASE'
+    compile group: 'org.springframework.security.oauth', name: 'spring-security-oauth2', version: '2.2.1.RELEASE'
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}

@@ -1,3 +1,6 @@
 rootProject.name = 'zkit'
 
 include 'tally'
+include 'app11'
+include 'app12'
+
