@@ -15,13 +15,14 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("deals")
-public class DealController extends SinglePKUriVarCrudRestController<Deal, Long> {
+public class DealController extends SinglePKUriVarCrudRestController<Deal, Integer> {
     @Autowired DealDao dealDao;
     @Autowired BillService billService;
     @Override
-    public void buildCrudFunctions(SinglePKCrudFunctionsBuilder<Deal, Long> builder) {
+    public void buildCrudFunctions(SinglePKCrudFunctionsBuilder<Deal, Integer> builder) {
         builder.fromSinglePKCrudDAO(dealDao);
     }
+
 
     @GetMapping("buyers")
     public List<Map> listAllBuyers(){

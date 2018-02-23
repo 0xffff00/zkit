@@ -7,7 +7,7 @@ import party.threebody.skean.web.mvc.dao.SinglePKJpaCrudDAO
 import party.threebody.zkit.tally.domain.Deal
 
 @Repository
-class DealDao extends SinglePKJpaCrudDAO<Deal, Long> {
+class DealDao extends SinglePKJpaCrudDAO<Deal, Integer> {
     @Autowired ChainedJdbcTemplate cjt
 
     @Override

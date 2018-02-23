@@ -7,24 +7,27 @@ import party.threebody.zkit.tally.dao.BillDao
 import javax.persistence.Table
 import java.time.LocalDate
 
-// 交易合约
+//
+/**
+ * 交易合约流水
+ * 不含lastBalance（上次余额），currBalance（本次余额）。这些数据是派生的，往往会有有错会导致历史流水全部算错。
+ */
 @Table(name = "tally_deal")
 class Deal {
-    @PrimaryKey Long id
-    @Column Long billId     // optional
-    @Column Long invoiceId  // optional
-    @Column String seller
-    @Column String buyer
-    @Column LocalDate date
-    @Column BigDecimal price    // optional
-    @Column BigDecimal volume   // optional
-    @Column BigDecimal amount
-    @Column String unit
-    @Column String desc
-    @Column String type // KEY - key frame,关键帧， null/MID - 中间帧
-
+    @PrimaryKey Integer id     //往往有交易日期自动生成，没有交易日期则随机生成(date的数字化+3位序号，每天最多1000条流水)
+    //@Column Long invoiceId  // 发货单id,optional
+    @Column String seller   // 卖方，就是自己啦，在简单情形下一般是常量
+    @Column String buyer    // 买方，即客户
+    @Column LocalDate date // 交易日期,optional
+    @Column BigDecimal price    // 单价,optional
+    @Column BigDecimal volume   // 数量,optional
+    @Column BigDecimal amount   // 成交额=借方=-贷方
+    @Column String unit // 单位,optional
+    @Column String desc // 描述,optional
+    @Column String type // KEY - key frame,关键帧; null/MID - 中间帧
 }
 // 账单
+@Deprecated
 @Table(name = "tally_bill")
 class Bill {
     @PrimaryKey Long id

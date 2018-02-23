@@ -49,8 +49,6 @@ public class BillService {
         for (Deal deal : deals) {
             deal.setBuyer(bill.getMainBuyer());
             deal.setSeller(bill.getMainSeller());
-            deal.setId(id++);
-            deal.setBillId(billId);
             rna += dealDao.create(deal);
         }
         return rna;
