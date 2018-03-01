@@ -6,6 +6,8 @@ import party.threebody.skean.jdbc.ChainedJdbcTemplate
 import party.threebody.skean.web.mvc.dao.SinglePKJpaCrudDAO
 import party.threebody.zkit.tally.domain.Deal
 
+import java.time.LocalDate
+
 @Repository
 class DealDao extends SinglePKJpaCrudDAO<Deal, Integer> {
     @Autowired ChainedJdbcTemplate cjt
@@ -15,22 +17,11 @@ class DealDao extends SinglePKJpaCrudDAO<Deal, Integer> {
         return cjt
     }
 
-    @Override
-    Deal createAndGet(Deal deal) {
-        if (deal.id == null) {
-            deal.setId(System.currentTimeMillis())
-        }
-        super.create(deal)
-        return deal
+    int deleteByDateRange(String buyer, LocalDate dateMin, LocalDate dateMax) {
+        cjt.sql("DELETE FROM tally_deal WHERE buyer=? AND date>=? AND date<=?")
+                .arg(buyer, dateMin, dateMax).execute()
     }
 
-    int deleteByBillId(Long billId) {
-        fromTable().by('billId').val(billId).delete()
-    }
-
-    List<Deal> listByBillId(Long billId) {
-        fromTable().by('billId').val(billId).list(Deal.class)
-    }
 
     List<String> listAllBuyers() {
         cjt.sql("SELECT DISTINCT buyer FROM tally_deal WHERE buyer IS NOT NULL ORDER BY buyer ")
