@@ -10,6 +10,7 @@ import party.threebody.skean.data.result.Counts;
 import party.threebody.skean.misc.SkeanInvalidArgumentException;
 import party.threebody.zkit.tally.dao.DealDao;
 import party.threebody.zkit.tally.domain.Deal;
+import party.threebody.zkit.tally.util.SkeanAsserts;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -30,9 +31,7 @@ public class TallyService {
         int rnd = dealDao.deleteByDateRange(buyer, dateMin, dateMax);
         int rnc = 0;
         for (Deal deal : deals) {
-            if (!buyer.equals(deal.getBuyer())) {
-                throw new SkeanInvalidArgumentException("buyer should be: " + buyer);
-            }
+            deal.setBuyer(buyer);
             rnc += dealDao.create(deal);
         }
         return Counts.created(rnc).deleted(rnd);
