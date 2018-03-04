@@ -3,13 +3,13 @@ package party.threebody.zkit.tally.dao
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Repository
 import party.threebody.skean.jdbc.ChainedJdbcTemplate
-import party.threebody.skean.web.mvc.dao.SinglePKJpaCrudDAO
+import party.threebody.skean.web.mvc.dao.TriplePKsJpaCrudDAO
 import party.threebody.zkit.tally.domain.Deal
 
-import java.time.LocalDate
-
 @Repository
-class DealDao extends SinglePKJpaCrudDAO<Deal, Integer> {
+class DealDao extends TriplePKsJpaCrudDAO<Deal, String, String, Integer> {
+    final static int SN_2000 = 0, SN_2270 = 98616
+
     @Autowired ChainedJdbcTemplate cjt
 
     @Override
@@ -17,9 +17,16 @@ class DealDao extends SinglePKJpaCrudDAO<Deal, Integer> {
         return cjt
     }
 
-    int deleteByDateRange(String buyer, LocalDate dateMin, LocalDate dateMax) {
-        cjt.sql("DELETE FROM tally_deal WHERE buyer=? AND date>=? AND date<=?")
-                .arg(buyer, dateMin, dateMax).execute()
+    Deal getLastKeyDeal(String buyer, String seller, Integer snMax) {
+        if (snMax == null) snMax = SN_2270
+        cjt.sql("SELECT * FROM $table WHERE buyer=? AND seller=? AND sn<=? AND type='KEY' ORDER BY sn DESC")
+                .arg(buyer, seller, snMax)
+                .first(Deal.class)
+    }
+
+    int deleteBySnRange(String buyer, String seller, Integer snMin, Integer snMax) {
+        cjt.sql("DELETE FROM tally_deal WHERE buyer=? AND seller=? AND sn>=? AND sn<=?")
+                .arg(buyer, seller, snMin, snMax).execute()
     }
 
 

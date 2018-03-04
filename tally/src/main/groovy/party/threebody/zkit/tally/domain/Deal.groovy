@@ -13,10 +13,10 @@ import java.time.LocalDate
  */
 @Table(name = "tally_deal")
 class Deal {
-    @PrimaryKey Integer id     //往往有交易日期自动生成，没有交易日期则随机生成(date的数字化+3位序号，每天最多1000条流水)
+    @PrimaryKey String seller   // 卖方，就是自己啦，在简单情形下一般是常量
+    @PrimaryKey String buyer    // 买方，即客户
+    @PrimaryKey Integer sn     //往往有交易日期自动生成，没有交易日期则随机生成(date的数字化+3位序号，每天最多1000条流水)
     //@Column Long invoiceId  // 发货单id,optional
-    @Column String seller   // 卖方，就是自己啦，在简单情形下一般是常量
-    @Column String buyer    // 买方，即客户
     @Column LocalDate date // 交易日期,optional
     @Column BigDecimal price    // 单价,optional
     @Column BigDecimal volume   // 数量,optional

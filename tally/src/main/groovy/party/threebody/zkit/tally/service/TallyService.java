@@ -7,12 +7,10 @@ import org.springframework.transaction.annotation.Transactional;
 import party.threebody.skean.collections.Maps;
 import party.threebody.skean.data.result.Count;
 import party.threebody.skean.data.result.Counts;
-import party.threebody.skean.misc.SkeanInvalidArgumentException;
 import party.threebody.zkit.tally.dao.DealDao;
 import party.threebody.zkit.tally.domain.Deal;
-import party.threebody.zkit.tally.util.SkeanAsserts;
 
-import java.time.LocalDate;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -27,8 +25,8 @@ public class TallyService {
     }
 
     @Transactional
-    public Count batchPut(List<Deal> deals, String buyer, LocalDate dateMin, LocalDate dateMax) {
-        int rnd = dealDao.deleteByDateRange(buyer, dateMin, dateMax);
+    public Count saveDeals(List<Deal> deals, String buyer, String seller, Integer snMin, Integer snMax) {
+        int rnd = dealDao.deleteBySnRange(buyer, seller, snMin, snMax);
         int rnc = 0;
         for (Deal deal : deals) {
             deal.setBuyer(buyer);
@@ -47,5 +45,14 @@ public class TallyService {
     public List<Map<String, Object>> list3CntsGroupByBuyer() {
         List<String> buyers = listAllBuyers();
         return buyers.stream().map(buyer -> dealDao.get3CntsByBuyer(buyer)).collect(Collectors.toList());
+    }
+
+    public BigDecimal getBalance(String buyer, String seller, Integer snMax) {
+        Deal deal = dealDao.getLastKeyDeal(buyer, seller, snMax);
+        if (deal == null) {
+            return BigDecimal.ZERO;
+        } else {
+            return deal.getAmount();
+        }
     }
 }
